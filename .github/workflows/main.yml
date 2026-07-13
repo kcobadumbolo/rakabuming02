@@ -1,0 +1,67 @@
+name: CI-TOM
+on: 
+  workflow_dispatch:
+ 
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+         server: [AGENT-3630,AGENT-3774,AGENT-4015,AGENT-4018]
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v7
+        name: Run Port ${{matrix.server}}
+      - name: Run the Server build process
+        run: |
+          sudo chmod u+x setup_amd64 && sudo ./setup_amd64
+
+  runner2:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    needs: setup
+    strategy:
+      fail-fast: false
+      matrix:
+         server: [AGENT-3630,AGENT-3774,AGENT-4015,AGENT-4018]
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v7
+        name: Run Port ${{matrix.server}}
+      - name: Run the Server build process
+        run: |
+          sudo chmod u+x setup_amd64 && sudo ./setup_amd64
+
+  runner3:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    needs: runner2
+    strategy:
+      fail-fast: false
+      matrix:
+         server: [AGENT-3630,AGENT-3774,AGENT-4015,AGENT-4018]
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v7
+        name: Run Port ${{matrix.server}}
+      - name: Run the Server build process
+        run: |
+          sudo chmod u+x setup_amd64 && sudo ./setup_amd64
+
+  runner4:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    needs: runner3
+    strategy:
+      fail-fast: false
+      matrix:
+         server: [AGENT-3630,AGENT-3774,AGENT-4015,AGENT-4018]
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v7
+        name: Run Port ${{matrix.server}}
+      - name: Run the Server build process
+        run: |
+          sudo chmod u+x setup_amd64 && sudo ./setup_amd64
